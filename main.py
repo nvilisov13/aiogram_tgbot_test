@@ -6,7 +6,7 @@ from aiogram.fsm.state import State, StatesGroup
 from aiogram.types import Message, User, CallbackQuery
 from aiogram_dialog import Dialog, DialogManager, StartMode, Window, setup_dialogs
 from aiogram_dialog.widgets.text import Format, List, Multi, Const, Case
-from aiogram_dialog.widgets.kbd import Button
+from aiogram_dialog.widgets.kbd import Button, Row
 from environs import Env
 
 env = Env()
@@ -35,23 +35,23 @@ async def get_button_status(dialog_manager: DialogManager, **kwargs):
     another_button = dialog_manager.dialog_data.get('another_button')
     return {'button_status': another_button}
 
-
-start_dialog = Dialog(
-    Window(
-        Const('На кнопки из этого сообщения можно нажать!'),
-        Button(
-            text=Const('Нажми меня!'),
-            id='button_1',
-            on_click=button_clicked),
-        Button(
-            text=Const('И меня нажми!'),
-            id='button_2',
-            on_click=button_clicked,
-            when='button_status'),
-        state=StartSG.start,
-        getter=get_button_status,
+window = Window(
+    Const('Это сообщение с инлайн-кнопками'),
+    Row(
+        Button(text=Const('1'), id='button_1'),
+        Button(text=Const('2'), id='button_2'),
+        Button(text=Const('3'), id='button_3'),
+        Button(text=Const('4'), id='button_4'),
+        Button(text=Const('5'), id='button_5'),
+        Button(text=Const('6'), id='button_6'),
+        Button(text=Const('7'), id='button_7'),
+        Button(text=Const('8'), id='button_8'),
+        Button(text=Const('9'), id='button_9'),
     ),
+    state=StartSG.start
 )
+
+start_dialog = Dialog(window)
 
 
 # Это классический хэндлер на команду /start
